@@ -18,9 +18,9 @@ function validarPerfil() {
   if (fechaNac >= new Date()) { denegarAcceso("fecha futura"); return; }
   if (calcularEdad(fechaNac) < EDAD_MINIMA) { denegarAcceso("edad mínima"); return; }
 
-  const mensaje = document.getElementById("mensaje");
-  mensaje.textContent = "Bienvenido, " + nombre;
-  mensaje.className = "ok";
+  sessionStorage.setItem("nombre", nombre);
+  sessionStorage.setItem("fecha", fecha);
+  window.location.href = "juego.html";
 }
 
 document.getElementById("btnEntrar").addEventListener("click", validarPerfil);

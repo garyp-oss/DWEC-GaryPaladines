@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de misiones</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/utilidades.js" defer></script>
+  <script src="js/juego.js" defer></script>
+</head>
+<body>
+  <main class="tarjeta">
+    <section id="panel">
+      <h2 id="saludo"></h2>
+      <p id="infoNombre"></p>
+      <p id="infoEdad"></p>
+      <p id="infoDia"></p>
+      <p id="infoCumple"></p>
+    </section>
+
+    <section id="juego">
+      <h2>Misiones</h2>
+      <p>Puntos: <strong id="puntos">0</strong> / <span id="meta"></span> · Récord: <strong id="record">0</strong></p>
+      <progress id="barra" value="0" max="100"></progress> <span id="porcentaje">0%</span>
+      <div>
+        <button id="btnAtacar" class="accion">Atacar al monstruo</button>
+        <button id="btnCofre" class="accion">Abrir cofre</button>
+        <button id="btnCalculo" class="accion">Misión de cálculo</button>
+      </div>
+      <div id="zonaCalculo" hidden>
+        <p id="pregunta"></p>
+        <input type="text" id="respuesta" placeholder="Tu respuesta">
+        <button id="btnResponder">Responder</button>
+      </div>
+      <p id="resultado"></p>
+      <h3>Últimas acciones</h3>
+      <ul id="historial"></ul>
+      <div>
+        <button id="btnAyuda"> Ayuda</button>
+        <button id="btnReiniciar"> Reiniciar</button>
+        <button id="btnSalir"> Salir</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
