@@ -27,6 +27,22 @@ function diasParaCumple(fechaNac) {
   return Math.round((proximo - hoySinHora) / msPorDia);
 }
 
+function aplicarEstilos(nombre, edad) {
+  const panel = document.getElementById("panel");
+  // El color de fondo depende de la longitud del nombre
+  const tono = (nombre.length * 37) % 360;
+  panel.style.backgroundColor = "hsl(" + tono + ", 70%, 88%)";
+
+  // El color del texto y del borde dependen de la edad
+  if (edad < 18) {
+    panel.style.color = "#0d47a1";
+    panel.style.borderLeft = "10px solid #1e88e5";
+  } else {
+    panel.style.color = "#4a148c";
+    panel.style.borderLeft = "10px solid #8e24aa";
+  }
+}
+
 function iniciarJuego() {
   const nombreFormateado = formatearNombre(nombreGuardado);
   document.getElementById("saludo").textContent = "¡Bienvenido, " + nombreFormateado + "!";
@@ -47,3 +63,4 @@ function iniciarJuego() {
     dias === 0 ? "¡Hoy es tu cumpleaños!" : "Faltan " + dias + " días para tu cumpleaños";
 
 }
+  aplicarEstilos(nombreFormateado, edad);
