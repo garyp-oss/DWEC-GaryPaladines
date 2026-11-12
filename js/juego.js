@@ -56,7 +56,7 @@ function numeroAleatorio(min, max) {
 function completarMision(nombreMision) {
   if (!misionesCompletadas.includes(nombreMision)) {
     misionesCompletadas.push(nombreMision);
-    historial.push("🏅 Misión completada: " + nombreMision);
+    historial.push(" Misión completada: " + nombreMision);
   }
 }
 
@@ -87,14 +87,28 @@ function cambiarPuntos(cantidad, texto) {
 function atacar() {
   completarMision("Primer ataque");
   if (Math.random() < 0.15) { // 15% de probabilidad de fallar
-    cambiarPuntos(-5, "💥 El monstruo contraataca: -5");
+    cambiarPuntos(-5, " El monstruo contraataca: -5");
     return;
   }
   const base = numeroAleatorio(5, 15);
   const critico = Math.random() < 0.2; // 20% de golpe crítico
   const dano = Math.round(critico ? base * 1.5 : base);
-  const etiqueta = critico ? "⚔️ ¡Golpe crítico!" : "⚔️ Ataque";
+  const etiqueta = critico ? " ¡Golpe crítico!" : " Ataque";
   cambiarPuntos(dano, etiqueta + ": +" + dano);
+}
+
+const premios = [
+  { texto: "Moneda de oro", puntos: 5 },
+  { texto: "Poción mágica", puntos: 10 },
+  { texto: "Trampa explosiva", puntos: -8 },
+  { texto: "Gema rara", puntos: 20 }
+];
+
+function abrirCofre() {
+  completarMision("Primer cofre");
+  const premio = premios[numeroAleatorio(0, premios.length - 1)];
+  const signo = premio.puntos > 0 ? "+" : "";
+  cambiarPuntos(premio.puntos, " Cofre: " + premio.texto + " (" + signo + premio.puntos + ")");
 }
 
 function iniciarJuego() {
@@ -115,6 +129,7 @@ function iniciarJuego() {
   const dias = diasParaCumple(fechaNac);
   document.getElementById("infoCumple").textContent =
     dias === 0 ? "¡Hoy es tu cumpleaños!" : "Faltan " + dias + " días para tu cumpleaños";
+  document.getElementById("btnCofre").addEventListener("click", abrirCofre);
 
 }
 
@@ -122,5 +137,5 @@ function iniciarJuego() {
   document.getElementById("barra").max = META;
   document.getElementById("btnAtacar").addEventListener("click", atacar);
   actualizarPantalla();
-  
+
   aplicarEstilos(nombreFormateado, edad);
