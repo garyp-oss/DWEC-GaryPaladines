@@ -43,6 +43,60 @@ function aplicarEstilos(nombre, edad) {
   }
 }
 
+const META = 100;
+let puntos = 0;
+let historial = [];            // array: todas las acciones de la partida
+let misionesCompletadas = [];  // array: nombres de misiones hechas
+
+function numeroAleatorio(min, max) {
+  // entero entre min y max, ambos incluidos
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function completarMision(nombreMision) {
+  if (!misionesCompletadas.includes(nombreMision)) {
+    misionesCompletadas.push(nombreMision);
+    historial.push("🏅 Misión completada: " + nombreMision);
+  }
+}
+
+function actualizarPantalla() {
+  document.getElementById("puntos").textContent = puntos;
+  document.getElementById("barra").value = puntos;
+  document.getElementById("porcentaje").textContent =
+    ((puntos / META) * 100).toFixed(1) + "%";
+
+  const lista = document.getElementById("historial");
+  lista.innerHTML = "";
+  const ultimas = historial.slice(-5).reverse(); // las 5 últimas, la más nueva arriba
+  for (let i = 0; i < ultimas.length; i++) {
+    const li = document.createElement("li");
+    li.textContent = ultimas[i];
+    lista.appendChild(li);
+  }
+}
+
+function cambiarPuntos(cantidad, texto) {
+  puntos = Math.max(0, puntos + cantidad); // nunca baja de 0
+  puntos = Math.min(puntos, META);         // nunca pasa de la meta
+  historial.push(texto);
+  document.getElementById("resultado").textContent = texto;
+  actualizarPantalla();
+}
+
+function atacar() {
+  completarMision("Primer ataque");
+  if (Math.random() < 0.15) { // 15% de probabilidad de fallar
+    cambiarPuntos(-5, "💥 El monstruo contraataca: -5");
+    return;
+  }
+  const base = numeroAleatorio(5, 15);
+  const critico = Math.random() < 0.2; // 20% de golpe crítico
+  const dano = Math.round(critico ? base * 1.5 : base);
+  const etiqueta = critico ? "⚔️ ¡Golpe crítico!" : "⚔️ Ataque";
+  cambiarPuntos(dano, etiqueta + ": +" + dano);
+}
+
 function iniciarJuego() {
   const nombreFormateado = formatearNombre(nombreGuardado);
   document.getElementById("saludo").textContent = "¡Bienvenido, " + nombreFormateado + "!";
@@ -63,4 +117,10 @@ function iniciarJuego() {
     dias === 0 ? "¡Hoy es tu cumpleaños!" : "Faltan " + dias + " días para tu cumpleaños";
 
 }
+
+  document.getElementById("meta").textContent = META;
+  document.getElementById("barra").max = META;
+  document.getElementById("btnAtacar").addEventListener("click", atacar);
+  actualizarPantalla();
+  
   aplicarEstilos(nombreFormateado, edad);
